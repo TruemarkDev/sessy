@@ -1,0 +1,8 @@
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <%= render "sources/breadcrumb", source: source %>
+  <%= render "sources/tabs", source: source, active: active %>
+
+  <div class="mt-6">
+    <%= yield %>
+  </div>
+</div>

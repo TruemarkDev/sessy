@@ -1,0 +1,30 @@
+<%= render layout: "sources/layout", locals: { source: @source, active: :settings } do %>
+  <div class="max-w-lg">
+    <%= form_with model: @source do |f| %>
+      <% if @source.errors.any? %>
+        <div class="mb-4 p-3 border border-red-300 rounded text-sm text-red-600">
+          <ul class="list-disc list-inside">
+            <% @source.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="mb-4">
+        <%= f.label :name, "Source Name", class: "block text-sm font-medium mb-1" %>
+        <%= f.text_field :name, class: "block w-full border rounded px-3 py-2 text-sm" %>
+      </div>
+
+      <div class="mb-4">
+        <%= render "color_picker", f: f %>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <%= f.submit "Save Changes", class: "px-3 py-1.5 text-sm border rounded hover:bg-gray-50 cursor-pointer" %>
+
+        <%= button_to "Delete Source", @source, method: :delete, class: "text-sm text-red-600 hover:underline", data: { confirm: "Are you sure? This will delete all messages and events for this source." } %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,15 @@
+<%
+  tabs = [
+    { name: "Overview", path: source_path(source), key: :overview },
+    { name: "Activity", path: source_events_path(source), key: :activity },
+    { name: "Setup", path: source_setup_path(source), key: :setup },
+    { name: "Settings", path: edit_source_path(source), key: :settings }
+  ]
+%>
+
+<nav class="flex gap-6 border-b">
+  <% tabs.each do |tab| %>
+    <%= link_to tab[:name], tab[:path],
+        class: "py-2 text-sm border-b-2 -mb-px #{active == tab[:key] ? 'border-current font-medium' : 'border-transparent text-gray-500 hover:text-gray-900'}" %>
+  <% end %>
+</nav>

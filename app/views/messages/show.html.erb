@@ -1,0 +1,87 @@
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <div class="mb-6">
+    <%= link_to source_events_path(@source), class: "text-sm text-gray-600 hover:text-gray-900" do %>
+      &larr; Back to Events
+    <% end %>
+    <h1 class="text-2xl font-bold mt-3">Email Message Details</h1>
+  </div>
+
+  <dl class="divide-y">
+    <!-- Subject -->
+    <div class="py-3">
+      <dt class="text-sm text-gray-500">Subject</dt>
+      <dd class="mt-1"><%= @message.subject || "[no subject]" %></dd>
+    </div>
+
+    <!-- From -->
+    <div class="py-3">
+      <dt class="text-sm text-gray-500">From</dt>
+      <dd class="mt-1"><%= @message.source_email %></dd>
+    </div>
+
+    <!-- To -->
+    <div class="py-3">
+      <dt class="text-sm text-gray-500">To</dt>
+      <dd class="mt-1">
+        <% @message.destination_emails.each do |email| %>
+          <div><%= email %></div>
+        <% end %>
+      </dd>
+    </div>
+
+    <!-- Sent At -->
+    <div class="py-3">
+      <dt class="text-sm text-gray-500">Sent At</dt>
+      <dd class="mt-1"><%= @message.sent_at&.strftime("%B %d, %Y at %l:%M:%S %p %Z") || "N/A" %></dd>
+    </div>
+
+    <!-- Tags -->
+    <% if @message.tags.present? %>
+      <div class="py-3">
+        <dt class="text-sm text-gray-500">Tags</dt>
+        <dd class="mt-1">
+          <% @message.tags.each do |key, value| %>
+            <span class="inline-flex items-center rounded bg-gray-100 px-2 py-0.5 text-xs font-mono mr-1"><%= key %>=<%= Array(value).join(", ") %></span>
+          <% end %>
+        </dd>
+      </div>
+    <% end %>
+
+    <!-- SES Message ID -->
+    <div class="py-3">
+      <dt class="text-sm text-gray-500">SES Message ID</dt>
+      <dd class="mt-1 text-sm font-mono break-all"><%= @message.ses_message_id %></dd>
+    </div>
+
+    <!-- Events -->
+    <div class="py-3">
+      <dt class="text-sm text-gray-500 mb-3">Events (<%= @message.events_count %>)</dt>
+      <dd class="mt-1 space-y-2">
+        <% @message.events.reverse_chronologically.each do |event| %>
+          <div class="flex items-center justify-between py-2">
+            <div class="flex items-center gap-3">
+              <span class="inline-flex items-center rounded px-2 py-0.5 text-xs font-medium <%= event_badge_classes(event) %>">
+                <%= event_label(event) %>
+              </span>
+              <div class="flex items-center gap-2">
+                <img src="<%= gravatar_url(event.recipient_email) %>" alt="" class="size-5 rounded-full">
+                <span class="text-sm"><%= event.recipient_email %></span>
+              </div>
+            </div>
+            <span class="text-sm text-gray-500"><%= event.event_at.strftime("%b %d, %l:%M:%S %p") %></span>
+          </div>
+        <% end %>
+      </dd>
+    </div>
+
+    <!-- Mail Metadata -->
+    <div class="py-3">
+      <details>
+        <summary class="text-sm text-gray-500 cursor-pointer">Mail Metadata</summary>
+        <div class="mt-2">
+          <pre class="text-xs p-3 border rounded overflow-x-auto"><%= JSON.pretty_generate(@message.mail_metadata) %></pre>
+        </div>
+      </details>
+    </div>
+  </dl>
+</div>

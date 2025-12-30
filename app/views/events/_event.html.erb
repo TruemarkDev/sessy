@@ -1,0 +1,24 @@
+<tr class="hover:bg-gray-50">
+  <td class="py-3 pr-3">
+    <span class="inline-flex items-center rounded px-2 py-0.5 text-xs font-medium <%= event_badge_classes(event) %>">
+      <%= event_label(event) %>
+    </span>
+  </td>
+  <td class="py-3 pr-3">
+    <div class="flex items-center gap-2">
+      <img src="<%= gravatar_url(event.recipient_email) %>" alt="" class="size-5 rounded-full">
+      <span><%= event.recipient_email %></span>
+    </div>
+  </td>
+  <td class="py-3 pr-3">
+    <% if event.message %>
+      <% subject = event.message.subject.presence || "[no subject]" %>
+      <%= link_to truncate(subject, length: 60), source_message_path(event.message.source, event.message), class: "text-blue-600 hover:underline" %>
+    <% else %>
+      <span class="text-gray-400 italic">[no subject]</span>
+    <% end %>
+  </td>
+  <td class="py-3 text-gray-500 whitespace-nowrap">
+    <%= event.event_at.strftime("%b %d, %l:%M:%S %p") %>
+  </td>
+</tr>
