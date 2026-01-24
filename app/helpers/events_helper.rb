@@ -6,7 +6,7 @@ module EventsHelper
     when "delivery"
       "bg-green-600 text-white"
     when "bounce"
-      bounce_badge_classes(event)
+      event_bounce_badge_classes(event)
     when "complaint", "reject", "rendering_failure"
       "bg-red-600 text-white"
     when "delivery_delay"
@@ -29,7 +29,7 @@ module EventsHelper
     when "delivery"
       "Delivered"
     when "bounce"
-      bounce_label(event)
+      event_bounce_label(event)
     when "complaint"
       "Complained"
     when "reject"
@@ -56,7 +56,7 @@ module EventsHelper
 
   private
 
-  def bounce_label(event)
+  def event_bounce_label(event)
     case event.bounce_type
     when "Permanent"
       "Hard Bounce"
@@ -67,7 +67,7 @@ module EventsHelper
     end
   end
 
-  def bounce_badge_classes(event)
+  def event_bounce_badge_classes(event)
     case event.bounce_type
     when "Permanent"
       "bg-red-600 text-white"
